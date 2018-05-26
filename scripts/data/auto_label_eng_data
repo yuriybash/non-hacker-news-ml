@@ -92,8 +92,6 @@ def auto_label():
 
             if eng_found:
                 rows.add((title, url, 0))
-            else:
-                rows.add((title, url))
 
             counter += 1
             min_total = MIN_TOTAL or args['--min_total']
