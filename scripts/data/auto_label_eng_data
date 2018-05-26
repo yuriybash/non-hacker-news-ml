@@ -42,22 +42,17 @@ DATA_PATH = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'dat
 INPUT_FILE = "unlabeled_data_full.csv"
 OUT_FILE = "eng_labeled_noneng_unlabeled_{}.csv".format(now.isoformat())
 ENG_F = "engineering_keywords.txt"
-NONENG_F = "nonengineering_keywords.txt"
 SKIP_FILE = None
 MIN_TOTAL = 8000
 
 
 def load_keywords():
     eng_kw_path = os.path.join(DATA_PATH, ENG_F)
-    noneng_kw_path = os.path.join(DATA_PATH, NONENG_F)
 
     with open(eng_kw_path, 'r') as infile:
         eng_kws = infile.read().splitlines()
 
-    with open(noneng_kw_path, 'r') as infile:
-        noneng_kws = infile.read().splitlines()
-
-    return eng_kws, noneng_kws
+    return eng_kws
 
 
 def load_existing_title_urls(skip_file):
@@ -71,7 +66,7 @@ def load_existing_title_urls(skip_file):
 
 
 def auto_label():
-    eng_kws, _ = load_keywords()
+    eng_kws = load_keywords()
     existing_titles_urls = None
     skip_file = args['--skip_file'] or SKIP_FILE
     if skip_file:
