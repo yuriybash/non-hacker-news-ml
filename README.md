@@ -55,29 +55,6 @@ What metric should we be looking at? Consider the following options:
 
 From the user's perspective, the latter sounds better - hence I prioritized precision as the key metric. Nonetheless, I've included accuracy below.
 
-### Accuracy
-
-Most models tested did fairly well with accuracy. Here is a comparison:
-
- - SVC (linear): 91%
- - Multinomial NB: 91%
- - Logistic Regression: 90%
- - Perceptron: 88%
-
-(hyperparameters for these can be found in `grid_config.yml`)
-
-
-
-### Precision
-
-- SVC (linear): 0.83
-- Multinomial NB: 0.94
-- Logistic Regression: 0.84
-- Perceptron: 0.85
-
-
-
-
 ### Caveats
 
 Importantly, there is a _large_ grey area
@@ -112,3 +89,38 @@ There is one caveat: rather than use the simple count, we use a normalized [tf-i
 We then use these prior and posterior probabilities to compute the overall probability of a post being 0/1 - see [here](https://en.wikipedia.org/wiki/Naive_Bayes_spam_filtering#Combining_individual_probabilities) for more information on how this is done.
 
 ### Results
+
+#### Accuracy
+
+Most models tested did fairly well with accuracy. Here is a comparison:
+
+ - SVC (linear): 91%
+ - Multinomial NB: 91%
+ - Logistic Regression: 90%
+ - Perceptron: 88%
+
+(hyperparameters for these can be found in `grid_config.yml`)
+
+
+
+#### Precision
+
+- SVC (linear): 0.83
+- Multinomial NB: 0.94
+- Logistic Regression: 0.84
+- Perceptron: 0.85
+
+Because we prioritize precision for this use case, the Multinomial NB classifier was chosen.
+
+### Deploying the model
+
+The model was serialized and deploy to AWS Lambda. For more on this, see [this]() repo - it's fairly straightforward.
+
+### Next steps
+
+There are many improvements to be made, including:
+
+- relabeling the data with a "technical" score, rather than 0 or 1
+- labeling more data (currently, n=10k)
+- add online learning - so that users can report mislabeled posts
+- retrain with deep learning (starting with an [RNN](https://en.wikipedia.org/wiki/Recurrent_neural_network))
