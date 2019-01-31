@@ -1,0 +1,43 @@
+models:
+  1:
+    vectorizer:
+      title:
+        name: 'tfidf'
+        parameters:
+          - ngram_range: [[1, 1], [1, 2]]
+            max_features: [500, 1000, 2000, 5000]
+      url:
+        name: 'tfidf'
+        parameters:
+          - ngram_range: [[1, 1]]
+            max_features: [500, 1000, 2000, 5000]
+    estimator:
+      name: 'SVC'
+      parameters:
+        - kernel: ['rbf']
+          gamma: [1.0e-3, 1.0e-4]
+          C: [1, 10, 100, 1000]
+        - kernel: ['linear']
+          C: [1, 10, 100, 1000]
+  2:
+    vectorizer:
+      title:
+        name: 'tfidf'
+        parameters:
+          - ngram_range: [[1, 1], [1, 2]]
+            max_features: [500, 1000, 2000, 5000]
+      url:
+        name: 'tfidf'
+        parameters:
+          - ngram_range: [[1, 1]]
+            max_features: [500, 1000, 2000, 5000]
+    estimator:
+      name: 'MultinomialNB'
+      parameters:
+        - alpha: [0.5, 1.0, 1.5]
+cross_validation:
+    train_test_split: [75, 25] # these need to sum to 100
+    n_folds: 5
+test:
+  scores: ['precision']
+data: 'data/data.csv'

@@ -1,0 +1,132 @@
+#!/usr/bin/env python
+"""
+auto_label_eng_data
+
+Given an input file of HN stories (title + URL), automatically label any
+stories that we suspect to be engineering-related, and write the newly-labeled
+data to a separate CSV file (with an added column, 'noneng', with value 0 for
+engineering-related items and 1 for non-engineering-related items).
+
+'suspect' in this case means that there is a keyword match in the title or
+URL, see engineering_keywords.txt for the entire list.
+
+By default, this script will go through the entire input file and label all
+applicable items, but if you need a smaller data set, you can provide any of
+the following options:
+
+    --min_total: once we iterate over this many input rows, stop running
+
+If we already have a labeled data set we plan on using as input, and we want
+to skip over those existing stories, you can pass a "--skip_file=<skip_file>"
+flag to skip over all stories in that file. *Note that if a skip file is
+provided, we assume we want to combine that file with the newly-outputted
+autolabeled file* - so two new files are created as a result of this script.
+
+Usage:
+    auto_label_eng_data [options]
+    auto_label_eng_data -h | --help
+
+Options:
+    -h --help                   Show this screen.
+    --min_total=<min_total>     # of total stories stop point (see above)
+    --skip_file=<skip_file>     skip all stories already labeled in this file
+"""
+
+import csv
+import datetime
+import docopt
+import os
+
+now = datetime.datetime.utcnow()
+DATA_PATH = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'data'))
+INPUT_FILE = "unlabeled_data_full.csv"
+OUT_FILE = "eng_labeled_noneng_unlabeled_{}.csv".format(now.isoformat())
+ENG_F = "engineering_keywords.txt"
+NONENG_F = "nonengineering_keywords.txt"
+SKIP_FILE = None
+MIN_TOTAL = 8000
+
+
+def load_keywords():
+    eng_kw_path = os.path.join(DATA_PATH, ENG_F)
+    noneng_kw_path = os.path.join(DATA_PATH, NONENG_F)
+
+    with open(eng_kw_path, 'r') as infile:
+        eng_kws = infile.read().splitlines()
+
+    with open(noneng_kw_path, 'r') as infile:
+        noneng_kws = infile.read().splitlines()
+
+    return eng_kws, noneng_kws
+
+
+def load_existing_title_urls(skip_file):
+    existing_titles_urls = set()
+    skip_path = os.path.join(DATA_PATH, skip_file)
+    with open(skip_path, 'r') as in_file:
+        for line in in_file:
+            title, url, _ = line.rstrip('\n').split(',')
+            existing_titles_urls.add((title, url))
+    return existing_titles_urls
+
+
+def auto_label():
+    eng_kws, _ = load_keywords()
+    existing_titles_urls = None
+    skip_file = args['--skip_file'] or SKIP_FILE
+    if skip_file:
+        existing_titles_urls = load_existing_title_urls(skip_file)
+
+    in_path = os.path.join(DATA_PATH, INPUT_FILE)
+    out_path = os.path.join(DATA_PATH, OUT_FILE)
+
+    rows = set()
+    with open(in_path, 'r') as in_file:
+        # skip header
+        next(in_file)
+
+        counter = 0
+        for line in in_file:
+            title, url = line.rstrip().split(',')
+
+            if (title, url) in existing_titles_urls:
+                continue
+
+            eng_found = any([x in title for x in eng_kws] or
+                            any([x in url for x in eng_kws]))
+
+            if eng_found:
+                rows.add((title, url, 0))
+            else:
+                rows.add((title, url))
+
+            counter += 1
+            min_total = MIN_TOTAL or args['--min_total']
+            if min_total and counter >= min_total:
+                break
+
+    with open(out_path, 'w') as out_file:
+        writer = csv.writer(out_file)
+        for row in rows:
+            writer.writerow(row)
+
+    # if skip file is included, assume that's prelabeled data that we want to
+    # combine with the autolabeled file we just created - combine the two in
+    # a new file
+    if skip_file:
+        skip_path = os.path.join(DATA_PATH, SKIP_FILE)
+        mixed_data_path = os.path.join(DATA_PATH, "labeled_autolabeled_mix.csv")
+
+        with open(mixed_data_path, 'w') as out_f:
+            with open(skip_path, 'r') as prelabeled_f:
+                for labeled_line in prelabeled_f:
+                    out_f.write(labeled_line)
+
+            with open(out_path, 'r') as autolabeled_f:
+                for autolabeled_line in autolabeled_f:
+                    out_f.write(autolabeled_line)
+        os.remove(out_path)
+
+if __name__ == '__main__':
+    args = docopt.docopt(__doc__)
+    auto_label()

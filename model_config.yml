@@ -1,0 +1,23 @@
+models:
+  1:
+    vectorizer:
+      title:
+        name: 'tfidf'
+        parameters:
+          - ngram_range: [[1, 1]]
+            max_features: [500]
+      url:
+        name: 'tfidf'
+        parameters:
+          - ngram_range: [[1, 1]]
+            max_features: [500]
+    estimator:
+      name: 'MultinomialNB'
+      parameters:
+        - alpha: [20.0]
+cross_validation:
+    train_test_split: [75, 25]
+    n_folds: 5
+test:
+  scores: ['precision']
+data: 'data/data.csv'

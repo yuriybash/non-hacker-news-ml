@@ -1,0 +1,6 @@
+*.json
+.idea/
+14m_hn_comments_sorted.csv
+old
+Pipfile
+*.pyc

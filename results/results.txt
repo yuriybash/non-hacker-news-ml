@@ -1,0 +1,197 @@
+<-----------------------------PRECISION------------------------>:
+
+Best parameters set found on development set for class <class 'sklearn.svm.classes.SVC'>, score 'precision':
+0.865 (+/-0.017): {'union__url__vec__ngram_range': [1, 1], 'estimator_cls__kernel': 'linear', 'union__title__vec__ngram_range': [1, 1], 'estimator_cls__C': 1, 'union__url__vec__max_features': 500, 'union__title__vec__max_features': 500}
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.93      0.97      0.95      2067
+          1       0.83      0.62      0.71       406
+
+avg / total       0.91      0.92      0.91      2473
+
+
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.naive_bayes.MultinomialNB'>, score 'precision':
+0.920 (+/-0.001): {'union__url__vec__ngram_range': [1, 1], 'estimator_cls__alpha': 20.0, 'union__title__vec__max_features': 500, 'union__url__vec__max_features': 500, 'union__title__vec__ngram_range': [1, 1]}
+
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.84      1.00      0.91      2067
+          1       0.94      0.04      0.08       406
+
+avg / total       0.86      0.84      0.78      2473
+
+
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.linear_model.logistic.LogisticRegression'>, score 'precision':
+0.920 (+/-0.001): {'estimator_cls__class_weight': {0: 0.85, 1: 0.15}, 'union__title__vec__max_features': 2000, 'union__url__vec__max_features': 100, 'union__title__vec__ngram_range': [1, 1], 'union__url__vec__ngram_range': [1, 1]}
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.84      1.00      0.91      2067
+          1       1.00      0.04      0.08       406
+
+avg / total       0.87      0.84      0.78      2473
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.linear_model.perceptron.Perceptron'>, score 'precision':
+0.782 (+/-0.037): {'estimator_cls__max_iter': 5, 'union__title__vec__ngram_range': [1, 1], 'estimator_cls__alpha': 0.0001, 'union__url__vec__max_features': 500, 'union__url__vec__ngram_range': [1, 1], 'union__title__vec__max_features': 5000}
+
+
+
+
+<-----------------------------RECALL------------------------>:
+
+Best parameters set found on development set for class <class 'sklearn.svm.classes.SVC'>, score 'recall':
+0.795 (+/-0.022): {'union__url__vec__ngram_range': [1, 1], 'estimator_cls__kernel': 'rbf', 'estimator_cls__gamma': 0.001, 'union__title__vec__ngram_range': [1, 2], 'estimator_cls__C': 1000, 'union__url__vec__max_features': 500, 'union__title__vec__max_features': 2000}
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.94      0.97      0.95      2067
+          1       0.80      0.67      0.73       406
+
+avg / total       0.92      0.92      0.92      2473
+
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.naive_bayes.MultinomialNB'>, score 'recall':
+0.778 (+/-0.022): {'union__url__vec__ngram_range': [1, 1], 'estimator_cls__alpha': 1.0, 'union__title__vec__max_features': 1000, 'union__url__vec__max_features': 500, 'union__title__vec__ngram_range': [1, 1]}
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.93      0.97      0.95      2067
+          1       0.82      0.62      0.71       406
+
+avg / total       0.91      0.92      0.91      2473
+
+
+
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.linear_model.logistic.LogisticRegression'>, score 'recall':
+0.778 (+/-0.016): {'estimator_cls__class_weight': {0: 0.3, 1: 0.7}, 'union__title__vec__max_features': 500, 'union__url__vec__max_features': 500, 'union__title__vec__ngram_range': [1, 2], 'union__url__vec__ngram_range': [1, 1]}
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.93      0.96      0.95      2067
+          1       0.77      0.64      0.70       406
+
+avg / total       0.91      0.91      0.91      2473
+
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.linear_model.perceptron.Perceptron'>, score 'recall':
+0.788 (+/-0.030): {'estimator_cls__max_iter': 5, 'union__title__vec__ngram_range': [1, 1], 'estimator_cls__alpha': 0.0001, 'union__url__vec__max_features': 500, 'union__url__vec__ngram_range': [1, 1], 'union__title__vec__max_features': 5000}
+
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.94      0.94      0.94      2067
+          1       0.67      0.67      0.67       406
+
+avg / total       0.89      0.89      0.89      2473
+
+
+
+
+
+
+<-----------------------------ACCURACY------------------------>:
+
+Best parameters set found on development set for class <class 'sklearn.svm.classes.SVC'>, score 'accuracy':
+0.910 (+/-0.008): {'union__url__vec__ngram_range': [1, 1], 'estimator_cls__kernel': 'linear', 'union__title__vec__ngram_range': [1, 1], 'estimator_cls__C': 1, 'union__url__vec__max_features': 500, 'union__title__vec__max_features': 500}
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.93      0.97      0.95      2067
+          1       0.83      0.62      0.71       406
+
+avg / total       0.91      0.92      0.91      2473
+
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.naive_bayes.MultinomialNB'>, score 'accuracy':
+0.905 (+/-0.009): {'union__url__vec__ngram_range': [1, 1], 'estimator_cls__alpha': 1.0, 'union__title__vec__max_features': 2000, 'union__url__vec__max_features': 500, 'union__title__vec__ngram_range': [1, 1]}
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.93      0.98      0.95      2067
+          1       0.83      0.62      0.71       406
+
+avg / total       0.91      0.92      0.91      2473
+
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.linear_model.logistic.LogisticRegression'>, score 'accuracy':
+0.900 (+/-0.011): {'estimator_cls__class_weight': {0: 0.3, 1: 0.7}, 'union__title__vec__max_features': 1000, 'union__url__vec__max_features': 500, 'union__title__vec__ngram_range': [1, 1], 'union__url__vec__ngram_range': [1, 1]}
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.93      0.97      0.95      2067
+          1       0.79      0.65      0.71       406
+
+avg / total       0.91      0.91      0.91      2473
+
+
+
+
+Best parameters set found on development set for class <class 'sklearn.linear_model.perceptron.Perceptron'>, score 'accuracy':
+0.880 (+/-0.020): {'estimator_cls__max_iter': 5, 'union__title__vec__ngram_range': [1, 1], 'estimator_cls__alpha': 0.0001, 'union__url__vec__max_features': 500, 'union__url__vec__ngram_range': [1, 1], 'union__title__vec__max_features': 5000}
+
+Detailed classification report:
+The model is trained on the full development set.
+The scores are computed on the full evaluation set.
+             precision    recall  f1-score   support
+
+          0       0.94      0.94      0.94      2067
+          1       0.67      0.67      0.67       406
+
+avg / total       0.89      0.89      0.89      2473

@@ -1,0 +1,1 @@
+Placeholder file; kept here until we generate example plots

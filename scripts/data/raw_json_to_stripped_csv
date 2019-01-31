@@ -1,0 +1,116 @@
+#!/usr/bin/env python
+"""
+raw_json_to_stripped_csv
+
+Takes the hacker news data dump in raw jsonl format and exports a CSV with
+the title and URL of each story in separate columns (as well as a "title" and
+"url" header). Optionally takes a "--reverse" flag to export the CSV in
+reverse-chronological order. This may be useful in case you later need to
+take only the first N stories from the exported CSV - it's probably better to
+take more recent stories than older.
+
+Filters out stories that match any of the following conditions:
+
+    - the story has less than 5 points
+    - the data is malformed:
+        - missing a title
+        - missing a URL
+        - various encoding errors
+
+Usage:
+    raw_json_to_stripped_csv [options]
+    raw_json_to_stripped_csv -h | --help
+
+Options:
+    -h --help                   Show this screen.
+    --reverse                   Reverse chronological order
+"""
+
+
+import csv
+import datetime
+import docopt
+import json
+import re
+import tldextract
+from os.path import abspath, join, pardir
+
+INPUT_FILE = "14m_hn_comments_sorted_latest_to_earliest.json"
+OUT_FILE = "unlabeled_data_full.csv"
+COUNTER_INTERVAL = 100000
+MIN_SCORE = 5
+
+
+def validate(body):
+    return (
+        body.get('type') == 'story'
+        and body.get('title')
+        and body.get('url')
+        and body.get('score', 0) > MIN_SCORE
+    )
+
+
+def parse_body(body):
+    title = re.compile('[^a-zA-Z0-9 -]').sub('', body['title'].lower().strip())
+    url = tldextract.extract(body['url'].lower()).domain
+    return title, url
+
+
+def prepare_lines(in_file):
+    if args['--reverse']:
+        print "reversing"
+        return reversed(in_file)
+    else:
+        return in_file
+
+
+def raw_json_to_stripped_csv():
+    error_counter = total_counter = 0
+
+    data_dir = join(abspath(pardir), 'data')
+    in_path = join(data_dir, INPUT_FILE)
+    out_path = join(data_dir, OUT_FILE)
+
+    with open(in_path, 'r') as in_file:
+        with open(out_path, 'w') as outfile:
+
+            writer = csv.writer(outfile)
+            writer.writerow(('title', 'url', 'noneng'))
+
+            for line in prepare_lines(in_file):
+                total_counter += 1
+                if total_counter % COUNTER_INTERVAL == 0:
+                    print "Total count at {}: {}".format(
+                        str(datetime.datetime.utcnow()), total_counter)
+
+                body = json.loads(line)['body']
+                if not validate(body):
+                    continue
+
+                try:
+                    title, url = parse_body(body)
+                except ValueError:
+                    error_counter += 1
+                    print("Malformed data encountered. title: {}, body:{}\n"
+                          .format(title, body))
+
+                if not (title and url):
+                    continue
+
+                try:
+                    writer.writerow((title, url))
+                except UnicodeEncodeError:
+                    error_counter += 1
+                    print("Error writing to CSV. title: {}, body:{}\n"
+                          .format(title, body))
+
+    return total_counter, error_counter
+
+
+if __name__ == '__main__':
+    args = docopt.docopt(__doc__)
+    start = datetime.datetime.utcnow()
+    total, error = raw_json_to_stripped_csv()
+    delta = datetime.datetime.utcnow() - start
+    print("Finished processing {} items in with {} errors. "
+          "Total time taken: {}".format(total, error, str(delta)))
