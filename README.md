@@ -176,7 +176,7 @@ The model was serialized and uploaded in a simple prediction server that lives o
 
 The Chrome Extension can be installed [here](https://chrome.google.com/webstore/detail/non-hacker-news/hpngeobpeckngjhdchikmijnkhfmedph).
 
-### Next steps
+## Next steps
 
 There are many improvements to be made, including:
 
