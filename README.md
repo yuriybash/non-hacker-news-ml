@@ -161,74 +161,26 @@ From the user's perspective, we'd probably prefer the latter over the former, so
 |:--------------------------:|:--------:|:---------:|:------:|:-------:|
 |     SVM (linear kernel)    |   0.910  |   0.865   |  0.795 |   0.91  |
 |             LR             |   0.900  |   0.920   |  0.778 |   0.91  |
-| Multinomial Naive Bayesian |   0.905  |   0.920   |  0.795 |   0.89  |
-
-### Caveats
-
-Importantly, there is a _large_ grey area
-
+| Multinomial Naive Bayesian |   0.915  |   0.920   |  0.795 |   0.89  |
 
 
 ## The model chosen
 
-Ultimately, the model that currently runs the extension is a [multinomial naive Bayesian](https://en.wikipedia.org/wiki/Naive_Bayes_classifier) model that returns probabilities of finding a given story ((title, URL) pair) to be nontechnical. You can find the configuration for this model [here](https://github.com/yuriybash/non-hacker-news-ml/blob/master/grid_config.yml).
+MNB was chosen. Importantly, we use the trained model to predict _probabilities_ (`clf.predict_proba`) of a given (title, url) pair belonging to class 0 or 1, rather than the class (`clf.predict`). This allows us to set our own threshold (rather than the default 0.5) for deciding which articles to filter - if a user wants _mostly_ non technical articles, the threshold can be set to 0.3, if a user wants _mostly_ nontechnical articles, the threshold can be set to 0.7, etc.
 
-It performed as well as the best models tested in accuracy, but more importantly - it had very good [precision](https://en.wikipedia.org/wiki/Precision_(information_retrieval)) score (as well as a high [F-score](https://en.wikipedia.org/wiki/F1_score)).
+## Deploying
 
-### Basic Overview
+The model was serialized and uploaded in a simple prediction server that lives on Lambda. More on that [here](https://github.com/yuriybash/non-hacker-news-ml-deploy).
 
-The grossly oversimplified intuition behind the naive Bayesian classifier is roughly:
+## Try it out!
 
-1. First, determine the probability that an HN story ((title, URL) pair) is nontechnical given the presence of a each word (e.g. "politics" or "compiler") in the vocabulary
-2. Second, determine the probability that an HN story is nontechnical given _all_ the words contained in it
-
-To do this, we first compute the prior probabilities of each class - that is, what proportion of the total is represented by each class?
-
-In this case, we only have two classes, 0 (technical) and 1 (nontechnical). There are 1626 nontechnical posts and 8263 technical posts - so ~0.164 and ~0.836, respectively.
-
-We then compute the posterior probability for each word. That is, for each word, what is the probability of it occuring, _given_ a certain class?
-
-For example, what is the posterior probability P("python" | 0) - what is the posterior probability for the word "python" for the technical class? How many times does the word "python" occur in (prelabeled) technical posts?
-
-One way this can be calculated is by dividing the number of times "python" occurs in technical posts by the number of total words in the 0 class, _plus_ the total number of words in the training set (for smoothing).
-
-There is one caveat: rather than use the simple count, we use a normalized [tf-idf](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) representation, in order to weigh each word based on how often it occurs in the text. See link for more details.
-
-We then use these prior and posterior probabilities to compute the overall probability of a post being 0/1 - see [here](https://en.wikipedia.org/wiki/Naive_Bayes_spam_filtering#Combining_individual_probabilities) for more information on how this is done.
-
-### Results
-
-#### Accuracy
-
-Most models tested did fairly well with accuracy. Here is a comparison:
-
- - SVC (linear): 91%
- - Multinomial NB: 91%
- - Logistic Regression: 90%
- - Perceptron: 88%
-
-(hyperparameters for these can be found in `grid_config.yml`)
-
-
-
-#### Precision
-
-- SVC (linear): 0.83
-- Multinomial NB: 0.94
-- Logistic Regression: 0.84
-- Perceptron: 0.85
-
-Because we prioritize precision for this use case, the Multinomial NB classifier was chosen.
-
-### Deploying the model
-
-The model was serialized and deploy to AWS Lambda. For more on this, see [this]() repo - it's fairly straightforward.
+The Chrome Extension can be installed [here](https://chrome.google.com/webstore/detail/non-hacker-news/hpngeobpeckngjhdchikmijnkhfmedph).
 
 ### Next steps
 
 There are many improvements to be made, including:
 
-- relabeling the data with a "technical" score, rather than 0 or 1
 - labeling more data (currently, n=10k)
 - add online learning - so that users can report mislabeled posts
 - retrain with deep learning (starting with an [RNN](https://en.wikipedia.org/wiki/Recurrent_neural_network))
+- create categories/tags for articles (e.g. "pure tech", "politics", "science", etc) - this will likely be a new project altogether
