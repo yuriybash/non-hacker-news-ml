@@ -163,6 +163,8 @@ From the user's perspective, we'd probably prefer the latter over the former, so
 |             LR             |   0.900  |   0.920   |  0.778 |   0.91  |
 | Multinomial Naive Bayesian |   0.915  |   0.920   |  0.795 |   0.89  |
 
+![roc_curve](https://github.com/yuriybash/non-hacker-news-ml/blob/master/assets/roc_curve.png "roc_curve")
+
 
 ## The model chosen
 
