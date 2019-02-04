@@ -139,19 +139,29 @@ Our data set is somewhat imbalanced (16.4% base case). Some models handle this b
 
 The training data was preprocessed using SMOTE. The technique is fairly intuitive and involves creating synthetic minority class examples by generating examples within the bounds of the minority class hyperplane bounds:
 
-![smote](https://github.com/yuriybash/non-hacker-news-ml/blob/master/assets/sample_data_unlabeled.png "smote")
-
+![smote](https://raw.githubusercontent.com/rikunert/SMOTE_visualisation/master/SMOTE_R_visualisation_3.png "smote")
+[image credit](http://rikunert.com/SMOTE_explained)
 
 Test data remained isolated prior to testing.
 
-## Comparing models' results
+## Results
 
-What metric should we be looking at? Consider the following options:
+Accuracy scores only tell part of the story, particularly with this type of skewed data set. A model can predict all 0s and still get 80% accuracy.
+
+[Precision](https://en.wikipedia.org/wiki/Precision_and_recall), which measures  and [Recall](https://en.wikipedia.org/wiki/Precision_and_recall) are key here.
+
+What these metrics mean here:
 
 - high recall, low precision: few false positives - users sometimes don't see some nontechnical articles, but they rarely see any technical ones
 - high precision, low recall: few false negatives - users sometimes see all nontechnical articles, but they also sometimes see technical ones
 
-From the user's perspective, the latter sounds better - hence I prioritized precision as the key metric. Nonetheless, I've included accuracy below.
+From the user's perspective, we'd probably prefer the latter over the former, so precision will be a key metric in evaluating results.
+
+|                            | Accuracy | Precision | Recall | F-Score |
+|:--------------------------:|:--------:|:---------:|:------:|:-------:|
+|     SVM (linear kernel)    |   0.910  |   0.865   |  0.795 |   0.91  |
+|             LR             |   0.900  |   0.920   |  0.778 |   0.91  |
+| Multinomial Naive Bayesian |   0.905  |   0.920   |  0.795 |   0.89  |
 
 ### Caveats
 
