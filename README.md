@@ -6,6 +6,7 @@ For more information on how the end product works, please see [this](https://git
 
 The `notebooks` directory has more technical information the model selection and training process, but I'll provide a high-level overview in this README.
 
+And most importantly - try out the [Chrome Extension](https://chrome.google.com/webstore/detail/non-hacker-news/hpngeobpeckngjhdchikmijnkhfmedph) to see the model in action!
 
 ## The goal
 
