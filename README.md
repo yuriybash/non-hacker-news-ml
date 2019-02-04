@@ -176,10 +176,11 @@ The model was serialized and uploaded in a simple prediction server that lives o
 
 The Chrome Extension can be installed [here](https://chrome.google.com/webstore/detail/non-hacker-news/hpngeobpeckngjhdchikmijnkhfmedph).
 
-## Next steps
+### Next steps
 
 There are many improvements to be made, including:
 
+- try a different vectorizer (tfidf is used here) that can correlate keywords with another, like [word2vec](https://skymind.ai/wiki/word2vec)
 - labeling more data (currently, n=10k)
 - add online learning - so that users can report mislabeled posts
 - retrain with deep learning (starting with an [RNN](https://en.wikipedia.org/wiki/Recurrent_neural_network))
