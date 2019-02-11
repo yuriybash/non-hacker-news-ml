@@ -41,6 +41,7 @@ for technical stories and
 P(technical|X) < P(nontechnical|X)
 ```
 
+for nontechnical ones.
 
 ## The data
 ### Raw data
