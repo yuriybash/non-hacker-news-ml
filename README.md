@@ -1,6 +1,6 @@
 # non-hacker-news
 
-This repo holds all of the code related to training, testing, and comparing ML models and pipelines for [Non-Hacker News](https://chrome.google.com/webstore/detail/non-hacker-news/hpngeobpeckngjhdchikmijnkhfmedph), a project I've been working on to make the non-technical content on [Hacker News](news.ycombinator.com) accessible to everyone.
+This repo holds all of the code related to training, testing, and comparing ML models and pipelines for [Non-Hacker News](https://chrome.google.com/webstore/detail/non-hacker-news/hpngeobpeckngjhdchikmijnkhfmedph), a project I've been working on to make the non-technical content on [Hacker News](news.ycombinator.com) accessible to everyone by filtering non-technical stories using a trained model.
 
 For more information on how the end product works, please see [this](https://github.com/yuriybash/non-hacker-news-chrome) repo, which contains all of the [Chrome extension](https://chrome.google.com/webstore/detail/non-hacker-news/hpngeobpeckngjhdchikmijnkhfmedph) related code, as well as a general overview of the use case.
 
